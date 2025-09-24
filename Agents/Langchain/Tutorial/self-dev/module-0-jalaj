@@ -1,0 +1,36 @@
+import os
+import openai
+from dotenv import find_dotenv, load_dotenv 
+from langchain_core.messages import HumanMessage
+
+
+from langchain.llms import OpenAI
+from langchain_openai import ChatOpenAI
+print  ("Setting up environment variables...")
+
+##load_dotenv(find_dotenv)
+
+# Set your OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
+if not openai.api_key:
+    raise ValueError("OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")   
+
+# Set your LangSmith API key
+langsmith_api_key = os.getenv("LANGSMITH_API_KEY")
+if not langsmith_api_key:
+    raise ValueError("LangSmith API key not found. Please set the LANGSMITH_API_KEY environment variable.")     
+
+print("Environment variables set successfully.")
+
+## set LLM model
+gpt35_chat = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
+
+msg = HumanMessage  (content="What is LangChain?",name="Jalaj")
+
+# Message list
+messages = [msg]
+
+response = gpt35_chat.invoke(messages)
+
+print(response)
+
